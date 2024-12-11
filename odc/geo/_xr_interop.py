@@ -1024,17 +1024,12 @@ class ODCExtensionDa(ODCExtension):
         encoding = self._xx.encoding
 
         for k in ["nodata", "_FillValue"]:
-            nodata = attrs.get(k, ())
-            if nodata == ():
-                nodata = encoding.get(k, ())
-
-            if nodata == ():
-                continue
-
+            nodata = attrs.get(k, None)
             if nodata is None:
-                return None
+                nodata = encoding.get(k, None)
 
-            return float(nodata)
+            if nodata is not None:
+                return float(nodata)
 
         return None
 
